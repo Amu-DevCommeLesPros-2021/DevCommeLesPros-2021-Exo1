@@ -15,11 +15,11 @@
                 "reveal": "always",
                 "panel": "new"
             },
-            "osx":{
-                "command": "clang --debug main.c"
-            },
             "linux": {
-                "command": "gcc --debug main.c -lm"
+                "command": "gcc main.c --debug -Wall -Werror -pedantic"
+            },
+            "osx":{
+                "command": "clang main.c --debug -Wall -Werror -pedantic"
             }
         }
     ]

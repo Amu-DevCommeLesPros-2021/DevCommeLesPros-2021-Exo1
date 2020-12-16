@@ -5,29 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "test (MacOS)",
-            "type": "lldb",
-            "request": "launch",
-            "program": "${workspaceFolder}/a.out",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "preLaunchTask": "compilation"
-        },
-        {
-            "name": "test (Linux)",
+            "name": "test",
             "type": "cppdbg",
             "request": "launch",
+            "preLaunchTask": "compilation",
             "program": "${workspaceFolder}/a.out",
             "args": [],
             "cwd": "${workspaceFolder}",
             "environment": [],
             "stopAtEntry": true,
-            "logging": {
-                "moduleLoad": false
+            "osx": {
+                "MIMode": "lldb",
             },
             "miDebuggerArgs": "--quiet",
             "targetArchitecture": "x64",
-            "preLaunchTask": "compilation"
+            "logging": {
+                "moduleLoad": false
+            },
         }
     ]
 }
