@@ -84,7 +84,7 @@ int main()
 
         // Modifie la valeur du seul noeud.
         set(one_node, 0, 33.);
-        TEST((at(one_node, 0)->data == 22.));
+        TEST((at(one_node, 0)->data == 33.));
         TEST((at(one_node, 1) == NULL));
 
         // Double la valeur de tout les noeuds.
@@ -143,7 +143,8 @@ int main()
         TEST((at(p, length(p) - 1)->data == -0.5));
 
         // Insertion dans une liste non-vide à un index hors-borne.
-        TEST((insert(p, 99, 1.) == NULL));
+        p = insert(p, 99, 1.);
+        TEST((at(p, length(p) - 1)->data == -0.5));
 
         clear(p);
     }
@@ -183,14 +184,14 @@ int main()
         TEST(length(p) == 2);
         TEST((p->data == 200.));
         TEST((p->next->data == 400.));
-        TEST((p->next->next->next == NULL));
+        TEST((p->next->next == NULL));
 
         // Supression dans une liste non-vide avec un index hors-borne.
         p = erase(p, 99);
         TEST(length(p) == 2);
         TEST((p->data == 200.));
         TEST((p->next->data == 400.));
-        TEST((p->next->next->next == NULL));
+        TEST((p->next->next == NULL));
 
         clear(p);
     }
@@ -226,7 +227,7 @@ int main()
         // Division d'une liste non-vide au dernier noeud.
         node *last = split(&tail, length(tail) - 1);
         TEST((length(tail) == 3));
-        TEST((tested->data == 200.));
+        TEST((tail->data == 200.));
 
         TEST((length(last) == 1));
         TEST((last->data == 500.));
