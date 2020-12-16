@@ -16,10 +16,10 @@
                 "panel": "new"
             },
             "linux": {
-                "command": "gcc main.c --debug -Wall -Werror -pedantic"
+                "command": "gcc main.c liste.c --debug -Wall -Werror -pedantic"
             },
             "osx":{
-                "command": "clang main.c --debug -Wall -Werror -pedantic"
+                "command": "clang main.c liste.c --debug -Wall -Werror -pedantic"
             }
         }
     ]
