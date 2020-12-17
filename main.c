@@ -1,26 +1,59 @@
 #include "liste.h"
 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+// Nombre total de tests.
+int const tests_total = 66;
+
+// Nombre total de tests exécutés. 
+int tests_executed = 0;
+
+// Pour chaque test qui réussi, cette variable sera incrémentée de 1.
+// Le but est de la garder égale à test_executes.
+int tests_successful = 0;
+
+// Incrémente le nombre de test exécutés de 1.
+// Si le test réussi, incrémente le nombre de tests réussis de 1.
+#define TEST(x) tests_executed += 1;    \
+                if(x)                   \
+                {                       \
+                    tests_successful += 1; \
+                    printf("[SUCCES] ");\
+                }                       \
+                else                    \
+                {                       \
+                    printf("[ECHEC ] ");\
+                }                       \
+                printf("%s:%d:0 : %s\n", __FILE__, __LINE__, #x);
+
+// Affiche le sommaire des résultats des tests.
+void print_summary()
+{
+    printf("---\nNombre de tests\t:%d\nTests executes\t:%2d\nTests reussis\t:%2d\n", tests_total, tests_executed, tests_successful);
+}
+
+// Fonction à executer lors d'une segmentation fault.
+// On imprime les résultats obtenus jusqu'à lors et on arrête immédiatement le programme.
+void segfault_sigaction(int signal, siginfo_t *si, void *arg)
+{
+    printf("[SEGFAULT]\n");
+    print_summary();
+    exit(tests_total - tests_successful);
+}
 
 int main()
 {
-    // Pour chaque test qui échoue, cette variable sera incrémentée de 1.
-    // Le but est de la garder à 0.
-    int failed = 0;
+    // Mise en place de la fonction à exécuter lors d'une segmentation fault.
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = segfault_sigaction;
+    sa.sa_flags = SA_SIGINFO;
+    sigaction(SIGSEGV, &sa, NULL);
 
-// Macro qui sert de test. Execute le test, affiche le résultat et incrémente 
-// 'failed' si échec.
-#define TEST(x) if(x)                       \
-                {                           \
-                    printf("[SUCCES] : ");  \
-                }                           \
-                else                        \
-                {                           \
-                    printf("[ECHEC]  : ");  \
-                    failed += 1;            \
-                }                           \
-                printf("%s\n", #x);
 
     // Trois listes pour les premiers tests :
     //  1. Une liste vide : {NULL}.
@@ -115,7 +148,7 @@ int main()
         // Création d'une toute nouvelle liste, vide.
         node *tested = NULL;
         node *p;
-        
+
         // Insertion dans une liste vide à un index hors-borne.
         p = insert(tested, 3, -1.);
         TEST((p == NULL));
@@ -173,7 +206,7 @@ int main()
 
         // Supression du dernier noeud d'une liste non-vide.
         p = erase(p, length(p) - 1);
-        TEST(length(p) == 3);
+        TEST((length(p) == 3));
         TEST((p->data == 200.));
         TEST((p->next->data == 300.));
         TEST((p->next->next->data == 400.));
@@ -181,14 +214,14 @@ int main()
 
         // Supression deuxième noeud d'une liste non-vide.
         p = erase(p, 1);
-        TEST(length(p) == 2);
+        TEST((length(p) == 2));
         TEST((p->data == 200.));
         TEST((p->next->data == 400.));
         TEST((p->next->next == NULL));
 
         // Supression dans une liste non-vide avec un index hors-borne.
         p = erase(p, 99);
-        TEST(length(p) == 2);
+        TEST((length(p) == 2));
         TEST((p->data == 200.));
         TEST((p->next->data == 400.));
         TEST((p->next->next == NULL));
@@ -234,5 +267,7 @@ int main()
         TEST((last->next == NULL));
     }
 
-    return failed;
+    print_summary();
+
+    return tests_total - tests_successful;
 }
