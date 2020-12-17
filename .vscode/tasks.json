@@ -13,7 +13,7 @@
             "problemMatcher": "$gcc",
             "presentation": {
                 "reveal": "always",
-                "panel": "new"
+                "panel": "dedicated"
             },
             "linux": {
                 "command": "gcc main.c liste.c --debug -Wall -Werror -pedantic"
