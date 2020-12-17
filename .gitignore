@@ -1,4 +1,5 @@
 .vscode/settings.json
 a.out*
-correction/*
-!correction/correction.py
+main.o
+evualation/*
+!evaluation/evaluate.py

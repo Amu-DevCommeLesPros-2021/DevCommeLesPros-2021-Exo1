@@ -1,0 +1,4 @@
+# List of repository names of the form [username/reponame].
+# The evaluation program will clone ssh://git@github.com/[username/reponame].git to ./[username-reponame]
+# Example: donaldduck/DevCommeLesPros-Exo1
+thierryseegers/DevCommeLesPros-2021-Exo1
