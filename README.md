@@ -18,7 +18,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 
 ## Instructions de départ
 
-Ces intructions présupposent que vous avez déjà suivi les instructions de l'[exercice précédent](https://github.com/thierryseegers/DevCommeLesPros-2020-Exo0) pour la création de votre compte GitHub et l'installation des programmes et des extensions nécéssaires.
+Ces intructions présupposent que vous avez déjà suivi les instructions de l'[exercice précédent](https://github.com/thierryseegers/DevCommeLesPros-2020-Exo0) pour la création de votre compte GitHub et l'installation des programmes et des extensions nécessaires.
 
 1. Créez votre dépôt sur github.com en utilisant ce dépôt-ci (https://github.com/thierryseegers/DevCommeLesPros-2020-Exo2) comme modèle.
     - Suivez ces instructions: https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template.
@@ -35,7 +35,12 @@ Ces intructions présupposent que vous avez déjà suivi les instructions de l'[
         - `$ code .`
 1. Compilez une première fois le programme.
     - Menu : `View` > `Command Palette` > `Tasks: Run Build Task`
-1. Lancez une première fois le programme avec le débogueur.
+1. Lancez le programme à l'invite de commande.
+    - Menu : `Terminal` > `New Terminal`
+    - `$ ./a.out`
+    - Vous verrez s'afficher des résultats de tests et un sommaire de ces résultats.
+    Ces résultats nous indiquent que certains des tests exécutés ont passé, certains ont échoué et que le programme s'est planté en cours de route.
+1. Lancez le programme avec le débogueur.
     - Menu : `Run` > `Start Debugging`
         - Le débogueur lance l'application mais se met en pause dès la première ligne de code dans la fonction `main()`.
 1. Affichez les informations de débogage.
@@ -43,36 +48,42 @@ Ces intructions présupposent que vous avez déjà suivi les instructions de l'[
         - Vous observez les valeurs de variables déclarés dans le contexte de la fonction `main()`.
 1. Continuez l'exécution du programme jusqu'à sa fin.
     - Menu : `Run` > `Continue`
-1. Vous devriez observer dans l'onglet `DEBUG CONSOLE` le résultat suivant :
-    - Sous Linux et Windows+WSL :
-        - `[Inferior 1 (process [NNNN]) exited with code 027]`.
-        - Attention, le débogueur `gdb` affiche le code de retour en octal (base 8). Ici, `027` en octal est `23` en décimal.
-    - Sous MacOS:
-        - `Process exited with code 23.`
+1. Le débogueur s'arrêtera net au moment où le code commet une erreur fatale de manipulation de mémoire et ça ressemblera à ceci :
+![Bebogueur segfault](https://user-images.githubusercontent.com/1580647/102505819-bf0a9500-4082-11eb-8bb6-d39b14596d60.png)
 
-Vous pouvez voir la valeur retournée par le programme dans l'onglet `DEBUG CONSOLE` comme décrit ci-haut.
-Vous pouvez aussi voir la valeur retournée par le dernier programme lancé à l'invite de commandes avec `echo $?`.
-Dans l'example suivant, le programme `a.out` a retourné la valeur `23`.
+Le programme en soi-même renvoie un code d'erreur correspondant au nombre de tests qui ont échoués ou qui n'ont pas été exécutés. Vous pouvez voir cette valeur (techniquement, la valeur du code d'erreur du dernier programme lancée) à l'invite de commande :
 ```
-> ./a.out
-> echo $?
-23
+$ ./a.out
+$ echo $?
+63
 ```
 
 ## Objectif
 
-Le programme contient quatre fonctions qui contiennent des erreurs.
-Ces fonctions sont testées par un macro qui compare le résultat reçu avec le résultat attendu.
-Si les résultats ne correspondent pas, un compteur de résultat final est incrementé de un.
-À la fin du programme, ce compteur final est retourné au système d'exploitation.
+Le programme contient du code pour créer et manipuler des [listes simplement chaînées](https://fr.wikipedia.org/wiki/Liste_cha%C3%AEn%C3%A9e#Liste_simplement_cha%C3%AEn%C3%A9e).
+Il contient trois fichiers :
+- `liste.h` : [fichier d'en-tête](https://en.wikipedia.org/wiki/Include_directive#C/C++) qui déclare les fonctions nécessaires.
+- `liste.c` : fichier source qui [définie](https://stackoverflow.com/a/1410632/1300177) ces fonctions.
+- `main.c` : contient du code dont la responsabilité est de tester toutes ces fonctions par des tests unitaires et d'afficher un compte rendu des tests.
+
+Les fonctions définies dans le fichier `liste.c` contiennent toutes des erreurs.
+L'objectif est de réparer les erreurs en s'aidant du débogueur.
+Il s'agit de ne plus «essayer et se croiser les doigts» ou de comprendre ce qui se passe avec des `printf()`.
+Le débogueur est là pour accélérer ce processus de compréhension et de réparation du code.
+Du code, qui plus est, n'est pas le vôtre.
+
 L'objectif est de réparer toutes les fonctions et que le programme retourne `0`.
 
 Il vous est permis: 
-- De modifier les définitions des fonctions `palindrome`, `inverse`, `en_chaine` et `anagramme` à votre gré.
+- De modifier l'implémentation des fonctions définies dans le fichier `liste.c`.
+Vous pouvez, si vous le désirez, changer le code du tout au tout mais ce ne devrait pas être nécessaire.
+Le code existant fonctionne disont dans à peu près 50% des cas.
+Seul quelques lignes sont à modifier, ajouter ou éliminer pour atteindre 100%.
 
 Il ne vous est pas permis:
-- De modifier les déclarations des fonctions `palindrome`, `inverse`, `en_chaine` et `anagramme`. (Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
-- De modifier la définition de la fonction `main`. Assurez-vous d'aucunement modifier le code qui vient après `int main()` car le script de correction en dépend.
+- De modifier les signatures des fonctions déclarées dans `fichier.c`. (Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
+- De modifier ni `fichier.h` ni `main.c`.
+(Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera `main.c` comme vous le voyez.)
 
 ## Instructions de travail
 
@@ -86,16 +97,17 @@ Il ne vous est pas permis:
 Avec la commande `> git log --all --decorate --oneline --graph`, l'historique de votre travail devrait au fil du temps ressembler à ceci  (lire du bas vers le haut):
 
 ```
-* d98fd55 (HEAD -> master) Passe tout les tests de la fonction en_chaine.
-* d6c6b98 Passe les test de la fonction en_chaine avec les nombres positifs.
-* 26354bc Passe les tests de inverse.
-* 53b3e8d Passe les tests de palindrome.
+* d98fd55 (HEAD -> master) Passe tout les tests de insert().
+* d6c6b98 Passe les test de insert() mais pas le cas special d'index 0.
+* 26354bc Passe les tests de at() et set().
+* 53b3e8d Passe les tests de length().
 ```
 
 ## «J'ai un problème !»
 
 Il est parfaitement acceptable de demander de l'aide sur Internet.
 Par contre, sur Internet, les questions d'étudiant se reniflent de loin alors soyez honnête dans la formulation de votre question et demandez bien *de l'aide*, ne demandez pas *la réponse*.
+Démontrez ce que vous avez essayé et expliquez où vous bloquez.
 
 ### Comment demander de l'aide
 1. https://stackoverflow.com/help/how-to-ask
