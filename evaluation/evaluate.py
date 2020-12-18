@@ -40,12 +40,12 @@ def evaluate_repo(name, timestamp=None):
 
         # Clone the repo.
         if (not os.path.exists(local_depot_path)):
-            subprocess.run(['git clone ' + remote_depot_url + ' ' + local_depot_path], shell=True, check=True, stderr=subprocess.PIPE)
+            subprocess.run('git clone ' + remote_depot_url + ' ' + local_depot_path, shell=True, check=True, stderr=subprocess.PIPE)
 
         # If timestamp is specified, checkout at that point in time.
         timestamp = ARGS.timestamp or None
         if timestamp is not None:
-            rev_list_cmd = subprocess.run(['git rev-list -n 1 --before="' + timestamp + '" master'], 
+            rev_list_cmd = subprocess.run('git rev-list -n 1 --before="' + timestamp + '" master', 
                                           cwd=local_depot_path, shell=True, capture_output=True, text=True, check=True)
             if not rev_list_cmd.stdout:
                 raise RuntimeError('repo non-existant at timestamp: ' + timestamp)
@@ -53,11 +53,11 @@ def evaluate_repo(name, timestamp=None):
             subprocess.run(['git checkout ' + rev_list_cmd.stdout], cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE)
 
         # Compile liste.c and link with main.o.
-        subprocess.run(['gcc --debug -I ../.. -c liste.c -o liste.o'], cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE, text=True)
-        subprocess.run(['gcc --debug ../main.o liste.o -o a.out'], cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE, text=True)
+        subprocess.run('gcc --debug -I ../.. -c liste.c -o liste.o', cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE, text=True)
+        subprocess.run('gcc --debug ../main.o liste.o -o a.out', cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE, text=True)
 
         # Launch tested program.
-        run_program_cmd = subprocess.run(['./a.out'], cwd=local_depot_path, shell=True, capture_output=True, text=True, timeout=3)
+        run_program_cmd = subprocess.run('./a.out', cwd=local_depot_path, shell=True, capture_output=True, text=True, timeout=3)
 
         # Show results.
         if ARGS.show_output:
@@ -70,9 +70,9 @@ def evaluate_repo(name, timestamp=None):
             subprocess.run('git log --all --decorate --graph --pretty=format:"%aD (%an) %s"', cwd=local_depot_path, shell=True)
 
     except subprocess.CalledProcessError as e:
-        print('Command "' + " ".join(e.cmd) + '" failed with error: [' + str(e.returncode) + '] ' + e.stderr)
+        print('Command "' + e.cmd + '" failed with error: [' + str(e.returncode) + '] ' + e.stderr)
     except subprocess.TimeoutExpired as e:
-        print('Command "' + " ".join(e.cmd) + '" timed out with error: ' + e.stderr)
+        print('Command "' + e.cmd + '" timed out with error: ' + e.stderr)
     except RuntimeError as e:
         print("Failure: " + "\n".join(e.args))
 
@@ -99,18 +99,25 @@ if __name__ == "__main__":
                 except RuntimeError as error:
                     print(error.args[0])
 
-        # Submit files to MOSS service if requested.
-        if ARGS.mossid:
-            try:
-                import mosspy, webbrowser
+    # Submit files to MOSS service if requested.
+    if ARGS.mossid:
+        print('\n' + '=' * 3 + 'Submitting to MOSS' + '=' * 3)
+        try:
+            import mosspy
+            import shutil, webbrowser
 
-                moss = mosspy.Moss(ARGS.mossid, 'c')
-                moss.addFilesByWildcard(os.path.join(ARGS.dossier, '*.c'))
-                url = moss.send()
-                mosspy.download_report(url, os.path.join(ARGS.dossier, 'moss/'), log_level=logging.ERROR)
-            except ImportError as ie:
-                print('Could not find MOSS module. Install it with \'$ pip3 install mosspy\'')
-            except:
-                print('MOSS submission error.')
-            else:
-                webbrowser.open('file://' + os.path.realpath(os.path.join(ARGS.dossier, 'moss/index.html')))
+            moss = mosspy.Moss(ARGS.mossid, 'c')
+            moss.setIgnoreLimit(3)
+            moss.addBaseFile('../liste.c')
+            moss.addFilesByWildcard('./**/liste.c')
+            url = moss.send()
+            print(url)
+            if os.path.exists('moss/'):
+                shutil.rmtree('moss/')
+            mosspy.download_report(url, 'moss/', log_level=logging.ERROR)
+        except ImportError as ie:
+            print('Could not find MOSS module. Install it with \'$ pip3 install mosspy\'')
+        except BaseException as be:
+            print('MOSS submission error.', be.args)
+        else:
+            webbrowser.open('file://' + os.path.realpath('moss/index.html'))
