@@ -128,18 +128,12 @@ Pour ce faire, il faut effacer le dépôt et le recréer.
 Suivez ces instruction : https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/deleting-a-repository puis recommencez l'exercice depuis les [Instructions de départ](#instructions-de-d%C3%A9part).
 **Assurez-vos de me ré-inviter comme collaborateur à votre nouveau dépôt !**
 
-
 ## Évaluation
 
-Dans le répertoire `correction`, vous trouverez le script que le professeur utilisera pour automatiser une première partie du processus de correction.
-Pour une liste de dépôts donnée dans `correction/depots.txt`, le script clone et compile le dépôt, lance le programme et affiche le résultat.
-Vous pouvez tester votre propre dépôt comme le fera le professeur:
-1. Installez le module pygit2 avec `> pip3 install pygit2` à l'invite de commandes.
-1. Ajoutez le nom de votre dépôt à la liste `correction/depots.txt`.
-1. Lancez le script à l'invite de commandes:
-    - `> cd correction`
-    - `> python3 correction.py`
+L'évaluation portera sur :
+1. Le suivi des instructions de travail.
+1. Le nombre de tests réussis.
+1. La qualité des modifications apportées.
 
-La deuxième partie de la correction est une inspection visuelle de votre code.
-
-Seul le code de votre dépôt sur http://github.com compte !
+Attention !
+**Seul le code de votre dépôt sur http://github.com compte !*
