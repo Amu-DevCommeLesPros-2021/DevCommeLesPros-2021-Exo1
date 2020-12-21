@@ -20,7 +20,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 
 Ces intructions présupposent que vous avez déjà suivi les instructions de l'[exercice précédent](https://github.com/thierryseegers/DevCommeLesPros-2020-Exo0) pour la création de votre compte GitHub et l'installation des programmes et des extensions nécessaires.
 
-1. Créez votre dépôt sur github.com en utilisant ce dépôt-ci (https://github.com/thierryseegers/DevCommeLesPros-2020-Exo2) comme modèle.
+1. Créez votre dépôt sur GitHub en utilisant ce dépôt-ci (https://github.com/thierryseegers/DevCommeLesPros-2020-Exo2) comme modèle.
     - Suivez ces instructions: https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template.
     - Choisissez l'option `Private` à l'étape 5.
 1. Ajoutez le professeur comme collaborateur à votre dépôt.
@@ -90,7 +90,7 @@ Il ne vous est pas permis:
 1. Au fur et à mesure de vos modifications au code, intégrez-les au dépôt local avec une description des modifications apportées.
     - `> git add main.c`
     - `> git commit -m "Description des modifications apportées"`
-1. Périodiquement, publiez votre dépôt local à votre dépôt sur github.com.
+1. Périodiquement, publiez votre dépôt local à votre dépôt sur GitHub.
     - `> git push`
 1. Répétez ces étapes jusqu'à ce que tout les tests passent.
 
@@ -136,4 +136,4 @@ L'évaluation portera sur :
 1. La qualité des modifications apportées.
 
 Attention !
-**Seul le code de votre dépôt sur http://github.com compte !*
+*Seul le code de votre dépôt sur [GitHub](http://github.com) compte !*
