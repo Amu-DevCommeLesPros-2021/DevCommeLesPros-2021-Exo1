@@ -70,6 +70,8 @@ Les fonctions définies dans le fichier `liste.c` contiennent toutes des erreurs
 L'objectif est de réparer les erreurs en s'aidant du débogueur.
 Il s'agit de ne plus «essayer et se croiser les doigts» ou de comprendre ce qui se passe avec des `printf()`.
 Le débogueur est là pour accélérer ce processus de compréhension et de réparation du code.
+Vous trouverez [ici](https://code.visualstudio.com/docs/editor/debugging) des instructions complètes pour le débogage avec Code.
+L'exemple est donné avec un programme en Javascript mais il s'applique pareillement avec un programme en C ou C++.
 
 L'objectif est de réparer toutes les fonctions et que le programme retourne `0`.
 
@@ -80,7 +82,8 @@ Le code existant fonctionne disont dans à peu près 50% des cas.
 Seul quelques lignes sont à modifier, ajouter ou éliminer pour atteindre 100%.
 
 Il ne vous est pas permis :
-- De modifier les signatures des fonctions déclarées dans `liste.c`. (Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
+- De modifier les signatures des fonctions déclarées dans `liste.c`.
+(Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
 - De modifier ni `liste.h` ni `main.c`.
 (Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les `liste.h` et `main.c` d'origine.)
 
