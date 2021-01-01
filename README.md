@@ -48,7 +48,7 @@ Ces intructions présupposent que vous avez déjà suivi les instructions de l'[
 1. Continuez l'exécution du programme jusqu'à sa fin.
     - Menu : `Run` > `Continue`
 1. Le débogueur s'arrêtera net au moment où le code commet une erreur fatale de manipulation de mémoire et ça ressemblera à ceci :
-![Bebogueur segfault](https://user-images.githubusercontent.com/1580647/102505819-bf0a9500-4082-11eb-8bb6-d39b14596d60.png)
+![Débogueur segfault](https://user-images.githubusercontent.com/1580647/102505819-bf0a9500-4082-11eb-8bb6-d39b14596d60.png)
 
 Le programme renvoie à l'invite de commande un code d'erreur correspondant au nombre de tests qui ont échoués ou qui n'ont pas été exécutés.
 Vous pouvez voir cette valeur (techniquement, la valeur du code d'erreur du dernier programme lancée) à l'invite de commande :
