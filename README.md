@@ -7,9 +7,11 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 - [Instructions de départ](#instructions-de-d%C3%A9part)
 - [Objectif](#objectif)
 - [Instructions de travail](#instructions-de-travail)
-- [«J'ai un problème !»](#%C2%ABjai-un-probl%C3%A8me-%C2%BB)
-    - [Comment demander de l'aide](#comment-demander-de-laide)
-    - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
+- [Questions-Réponses](#questions-r%C3%A9ponses)
+    - [«Puis-je utiliser l'en-tête <X.h> dans mon code ?»](#%C2%ABpuis-je-utiliser-len-t%C3%AAte-xh-dans-mon-code-%C2%BB)
+    - [«J'ai un problème !»](#%C2%ABjai-un-probl%C3%A8me-%C2%BB)
+        - [Comment demander de l'aide](#comment-demander-de-laide)
+        - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
 - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
 - [Évaluation](#%C3%A9valuation)
 
@@ -105,19 +107,27 @@ Avec la commande `$ git log --all --decorate --oneline --graph`, l'historique de
 * 53b3e8d Passe les tests de length().
 ```
 
-## «J'ai un problème !»
+## Questions-Réponses
+
+### «Puis-je utiliser l'en-tête `<X.h>` dans mon code ?»
+
+Oui.
+Vous avez droit à toutes les en-têtes C standard pour cet exercice et tout les exercices suivants.
+Explorez particulièrement `<ctype.h>` et `<string.h>`.
+
+### «J'ai un problème !»
 
 Il est parfaitement acceptable de demander de l'aide sur Internet.
 Par contre, sur Internet, les questions d'étudiant se reniflent de loin alors soyez honnête dans la formulation de votre question et demandez bien *de l'aide*, ne demandez pas *la réponse*.
 Démontrez ce que vous avez essayé et expliquez où vous bloquez.
 
-### Comment demander de l'aide
+#### Comment demander de l'aide
 1. https://stackoverflow.com/help/how-to-ask
 1. https://www.reddit.com/r/C_Programming/comments/9l0vuz/asking_for_help_what_to_do_when_your_program/
 1. https://en.wikipedia.org/wiki/Wikipedia:Reference_desk/How_to_ask_a_software_question
 1. http://www.catb.org/%7Eesr/faqs/smart-questions.html
 
-### Où demander de l'aide
+#### Où demander de l'aide
 1. https://devcommelespros.slack.com ([invitation](https://join.slack.com/t/devcommelespros/shared_invite/enQtODg1MjI3NTYwODE4LWI2NTE1YTQ2ODg2MmMyYTliYTJkNDcwYTVhOWQ5N2Y0NDkyZGZhZjAwM2Q2NDRjY2Y2NjI3OTU1YjAzZDcwY2I))
 1. https://stackoverflow.com
 1. https://reddit.com/r/C_Programming/
