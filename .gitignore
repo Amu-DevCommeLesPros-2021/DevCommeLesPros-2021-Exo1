@@ -1,3 +1,4 @@
 .vscode/settings.json
 a.out*
 main.o
+evaluation/**
