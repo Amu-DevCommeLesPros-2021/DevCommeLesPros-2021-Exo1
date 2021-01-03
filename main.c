@@ -223,6 +223,9 @@ int main()
         TEST(length(last) == 1);
         TEST(last->data == 500.);
         TEST(last->next == NULL);
+
+        clear(tail);
+        clear(last);
     }
 
     print_summary();
