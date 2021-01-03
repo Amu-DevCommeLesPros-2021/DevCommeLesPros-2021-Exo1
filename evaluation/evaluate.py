@@ -17,6 +17,8 @@ ARGPARSER.add_argument('-m', '--moss-id', dest='mossid', action='store',
                        help='MOSS identifier. (See http://theory.stanford.edu/~aiken/moss/ to obtain an identifier.)')
 ARGPARSER.add_argument('-o', '--show-output', dest='show_output', action='store_true',
                        help='Prints to screen the output of the programs evaluated.')
+ARGPARSER.add_argument('-v', '--valgrind', dest='valgrind', action='store_true',
+                       help='Run valgrind on program and show its output.')
 ARGS = ARGPARSER.parse_args()
 
 # Verify timestamp format, if present.
@@ -64,6 +66,10 @@ def evaluate_repo(name, timestamp=None):
             print(run_program_cmd.stdout)
         else:
             print("\n".join(run_program_cmd.stdout.splitlines()[-3:]))
+
+        # Show valgrind analysis if requested.
+        if ARGS.valgrind:
+            subprocess.run('valgrind --log-fd=2 --leak-check=full --show-leak-kinds=all --track-origins=yes ./a.out 1>/dev/null', cwd=local_depot_path, shell=True)
 
         # Show git log if requested.
         if ARGS.show_log:
