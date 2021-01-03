@@ -1,59 +1,17 @@
 #include "liste.h"
+#include "test_harness.h"
 
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-// Nombre total de tests.
 int const tests_total = 66;
-
-// Nombre total de tests exécutés. 
-int tests_executed = 0;
-
-// Pour chaque test qui réussi, cette variable sera incrémentée de 1.
-// Le but est de la garder égale à test_executes.
-int tests_successful = 0;
-
-// Incrémente le nombre de test exécutés de 1.
-// Si le test réussi, incrémente le nombre de tests réussis de 1.
-#define TEST(x) printf("%s:%d:0 %*s : ", __FILE__, __LINE__, __LINE__ < 100 ? -41 : -40, #x); \
-                tests_executed += 1;        \
-                if(x)                       \
-                {                           \
-                    tests_successful += 1;  \
-                    printf("[SUCCES]\n");   \
-                }                           \
-                else                        \
-                {                           \
-                    printf("[ECHEC]\n");    \
-                }
-
-// Affiche le sommaire des résultats des tests.
-void print_summary()
-{
-    printf("---\nNombre de tests\t:%3d\nTests executes\t:%3d\nTests reussis\t:%3d\n", tests_total, tests_executed, tests_successful);
-}
-
-// Fonction à executer lors d'une segmentation fault.
-// On imprime les résultats obtenus jusqu'à lors et on arrête immédiatement le programme.
-void segfault_sigaction(int signal, siginfo_t *si, void *arg)
-{
-    printf("[SEGFAULT]\n");
-    print_summary();
-    exit(tests_total - tests_successful);
-}
+int const test_column_width = 40;
 
 int main()
 {
     // Mise en place de la fonction à exécuter lors d'une segmentation fault.
     struct sigaction sa;
-    memset(&sa, 0, sizeof(struct sigaction));
-    sigemptyset(&sa.sa_mask);
-    sa.sa_sigaction = segfault_sigaction;
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGSEGV, &sa, NULL);
-
+    install_segfault_sigaction(&sa);
 
     // Trois listes pour les premiers tests :
     //  1. Une liste vide : {NULL}.
