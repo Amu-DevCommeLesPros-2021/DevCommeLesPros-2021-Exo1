@@ -12,7 +12,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
     - [«J'ai un problème !»](#%C2%ABjai-un-probl%C3%A8me-%C2%BB)
         - [Comment demander de l'aide](#comment-demander-de-laide)
         - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
-- [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
+    - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
 - [Évaluation](#%C3%A9valuation)
 
 <!-- /TOC -->
@@ -133,7 +133,7 @@ Démontrez ce que vous avez essayé et expliquez où vous bloquez.
 1. https://reddit.com/r/C_Programming/
 1. https://reddit.com/r/codinghelp
 
-## «Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»
+### «Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»
 
 Oui.
 Pour ce faire, il faut effacer le dépôt et le recréer.
