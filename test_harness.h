@@ -1,5 +1,5 @@
 // These test macros and functions have been collected in this header file to 
-// keep 'main.c' as free as possible from distractions beyond test contents.
+// keep 'main.c' as free as possible from distractions beyond tests content.
 // It is expected that this header file is only included from 'main.c' otherwise 
 // symbols will be duplicated.
 
@@ -56,25 +56,28 @@ extern int const test_column_width;
                         }
 
 // Affiche le sommaire des résultats des tests.
-void print_summary()
+void __attribute__((destructor)) print_summary()
 {
     printf("---\nNombre de tests\t:%3d\nTests executes\t:%3d\nTests reussis\t:%3d\n", tests_total, tests_executed, tests_successful);
 }
 
-// Fonction à executer lors d'une segmentation fault.
-// On imprime les résultats obtenus jusqu'à lors et on arrête immédiatement le programme.
-void segfault_sigaction(int signal, siginfo_t *si, void *arg)
+// Fonction à executer lors d'un signal.
+// Affiche le code du signal et arrête immédiatement le programme.
+void signal_handler(int signal)
 {
-    printf("[SEGFAULT]\n");
-    print_summary();
+    printf("[FATAL(%d)]\n", signal);
     exit(tests_total - tests_successful);
 }
 
-void install_segfault_sigaction(struct sigaction* sa)
+// Mise en place de la fonction à exécuter lors de signaux (de détresse).
+void __attribute__((constructor)) install_signal_handler()
 {
-    memset(sa, 0, sizeof(struct sigaction));
-    sigemptyset(&sa->sa_mask);
-    sa->sa_sigaction = segfault_sigaction;
-    sa->sa_flags = SA_SIGINFO;
-    sigaction(SIGSEGV, sa, NULL);
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_handler = signal_handler;
+    for(int signals[4] = {SIGBUS, SIGFPE, SIGILL, SIGSEGV}, i = 0; i != sizeof(signals); ++i)
+    {
+        sigaction(signals[i], &sa, NULL);
+    }
 }

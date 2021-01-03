@@ -1,18 +1,14 @@
 #include "liste.h"
 #include "test_harness.h"
 
-#include <signal.h>
 #include <stdlib.h>
 
+// Valeurs pour le harnais de test spécifiques à ce programme.
 int const tests_total = 66;
 int const test_column_width = 40;
 
 int main()
 {
-    // Mise en place de la fonction à exécuter lors d'une segmentation fault.
-    struct sigaction sa;
-    install_segfault_sigaction(&sa);
-
     // Trois listes pour les premiers tests :
     //  1. Une liste vide : {NULL}.
     //  2. Une liste ne contenant qu'un seul noeud : {22.0->NULL}.
@@ -227,8 +223,6 @@ int main()
         clear(tail);
         clear(last);
     }
-
-    print_summary();
 
     return tests_total - tests_successful;
 }
