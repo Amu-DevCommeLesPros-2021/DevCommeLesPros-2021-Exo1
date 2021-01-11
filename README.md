@@ -7,13 +7,13 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 - [Préparation](#pr%C3%A9paration)
 - [Objectif](#objectif)
 - [Instructions de travail](#instructions-de-travail)
+- [Évaluation](#%C3%A9valuation)
 - [Questions-Réponses](#questions-r%C3%A9ponses)
     - [«Puis-je utiliser l'en-tête <X.h> dans mon code ?»](#%C2%ABpuis-je-utiliser-len-t%C3%AAte-xh-dans-mon-code-%C2%BB)
     - [«J'ai un problème !»](#%C2%ABjai-un-probl%C3%A8me-%C2%BB)
         - [Comment demander de l'aide](#comment-demander-de-laide)
         - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
     - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
-- [Évaluation](#%C3%A9valuation)
 
 <!-- /TOC -->
 
@@ -52,10 +52,16 @@ Ces intructions présupposent que vous avez déjà suivi les instructions de l'[
 1. Le débogueur s'arrêtera net au moment où le code commet une erreur fatale de manipulation de mémoire et ça ressemblera à ceci :
 ![Débogueur segfault](https://user-images.githubusercontent.com/1580647/102505819-bf0a9500-4082-11eb-8bb6-d39b14596d60.png)
 
-Le programme renvoie à l'invite de commande un code d'erreur correspondant au nombre de tests qui ont échoués ou qui n'ont pas été exécutés.
-Vous pouvez voir cette valeur (techniquement, la valeur du code d'erreur du dernier programme lancée) à l'invite de commande :
+S'il est lancé directement à l'invite de commande (`$ ./a.out`), le programme :
+- affiche le résultat de chaque test exécutés : `[SUCCES]`, `[ECHEC]` ou `[FATAL(N)]` (à `[FATAL(N)]`, le programme est stoppé).
+- affiche en fin d'exécution le nombre de tests total, de tests exécutés et de tests réussis.
+- retourne comme valeur à l'invite de commande la différence entre le nombre de tests total et de tests réussis (p. ex. 66 - 3 -> `63`).
+Vous pouvez voir cette valeur (techniquement, la valeur du code d'erreur du dernier programme lancé) à l'invite de commande :
 ```
 $ ./a.out
+.
+.
+.
 $ echo $?
 63
 ```
@@ -75,19 +81,9 @@ Le débogueur est là pour accélérer ce processus de compréhension et de rép
 Vous trouverez [ici](https://code.visualstudio.com/docs/editor/debugging) des instructions complètes pour le débogage avec Code.
 L'exemple est donné avec un programme en Javascript mais il s'applique pareillement avec un programme en C ou C++.
 
-L'objectif est de réparer toutes les fonctions et que le programme retourne `0`.
-
-Il vous est permis : 
-- De modifier l'implémentation des fonctions définies dans le fichier `liste.c`.
-Vous pouvez, si vous le désirez, changer le code du tout au tout mais ce ne devrait pas être nécessaire.
-Le code existant fonctionne disont dans à peu près 50% des cas.
-Seul quelques lignes sont à modifier, ajouter ou éliminer pour atteindre 100%.
-
-Il ne vous est pas permis :
-- De modifier les signatures des fonctions déclarées dans `liste.c`.
-(Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
-- De modifier ni `liste.h` ni `main.c`.
-(Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les fichiers `liste.h` et `main.c` d'origine.)
+L'objectif est donc de réparer toutes les fonctions et que :
+- le programme affiche que tous les tests ont passé avec succès.
+- le programme retourne `0` à l'invite de commandes.
 
 ## Instructions de travail
 
@@ -106,6 +102,28 @@ Avec la commande `$ git log --all --decorate --oneline --graph`, l'historique de
 * 26354bc Passe les tests de at() et set().
 * 53b3e8d Passe les tests de length().
 ```
+
+Il vous est permis : 
+- De modifier l'implémentation des fonctions définies dans le fichier `liste.c`.
+Vous pouvez, si vous le désirez, changer le code du tout au tout mais ce ne devrait pas être nécessaire.
+Le code existant fonctionne disont dans à peu près 50% des cas.
+Seul quelques lignes sont à modifier, ajouter ou éliminer pour atteindre 100%.
+
+Il ne vous est pas permis :
+- De modifier les signatures des fonctions déclarées dans `liste.c`.
+(Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
+- De modifier ni `liste.h` ni `main.c`.
+(Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les fichiers `liste.h` et `main.c` d'origine.)
+
+## Évaluation
+
+L'évaluation portera sur :
+1. Le suivi des instructions de travail.
+1. Le nombre de tests réussis.
+1. La qualité des modifications apportées.
+
+Attention !
+*Seul le code de votre dépôt sur [GitHub](https://github.com) compte !*
 
 ## Questions-Réponses
 
@@ -139,13 +157,3 @@ Oui.
 Pour ce faire, il faut effacer le dépôt et en créer un nouveau.
 Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/deleting-a-repository) puis recommencez l'exercice depuis l'étape de  [préparation](#pr%C3%A9paration).
 **Assurez-vous de me ré-inviter comme collaborateur à votre nouveau dépôt et ce même s'il porte exactement le même nom !**
-
-## Évaluation
-
-L'évaluation portera sur :
-1. Le suivi des instructions de travail.
-1. Le nombre de tests réussis.
-1. La qualité des modifications apportées.
-
-Attention !
-*Seul le code de votre dépôt sur [GitHub](https://github.com) compte !*
