@@ -4,7 +4,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 
 <!-- TOC depthfrom:2 -->
 
-- [Instructions de départ](#instructions-de-d%C3%A9part)
+- [Préparation](#pr%C3%A9paration)
 - [Objectif](#objectif)
 - [Instructions de travail](#instructions-de-travail)
 - [Questions-Réponses](#questions-r%C3%A9ponses)
@@ -17,19 +17,19 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 
 <!-- /TOC -->
 
-## Instructions de départ
+## Préparation
 
-Ces intructions présupposent que vous avez déjà suivi les instructions de l'[exercice précédent](https://github.com/thierryseegers/DevCommeLesPros-2021-Exo0) pour la création de votre compte GitHub et l'installation des programmes et des extensions nécessaires.
+Ces intructions présupposent que vous avez déjà suivi les instructions de l'[exercice précédent](https://github.com/Amu-DevCommeLesPros-2021/DevCommeLesPros-2021-Exo0) pour la création de votre compte GitHub et l'installation des programmes et des extensions nécessaires.
 
-1. Créez votre dépôt sur GitHub en utilisant [ce dépôt-ci](https://github.com/thierryseegers/DevCommeLesPros-2021-Exo1) comme modèle.
-    - Suivez ces instructions : https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template.
+1. Créez votre dépôt sur GitHub en utilisant [ce dépôt-ci](https://github.com/Amu-DevCommeLesPros-2021/DevCommeLesPros-2021-Exo1) comme modèle.
+    - Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
     - Choisissez l'option `Private` à l'étape 5.
 1. Ajoutez le professeur comme collaborateur à votre dépôt.
-    - Suivez ces instructions : https://docs.github.com/en/free-pro-team@latest/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository
+    - Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository).
     - Nom d'utilisateur à ajouter : `thierryseegers`.
 1. Clonez votre dépôt vers votre espace de travail local.
-    - Suivez ces instructions : https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository
-    - Attention à ne pas cloner https://github.com/thierryseegers/DevCommeLesPros-2021-Exo1 mais bien votre dépôt nouvellement créé.
+    - Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository).
+    - Attention à ne pas cloner https://github.com/Amu-DevCommeLesPros-2021/DevCommeLesPros-2021-Exo1 mais bien votre dépôt nouvellement créé.
 1. Lancez Visual Studio Code.
     - À l'invite de commandes :
         - `$ cd [nom de votre dépôt]`
@@ -46,7 +46,7 @@ Ces intructions présupposent que vous avez déjà suivi les instructions de l'[
         - Le débogueur lance l'application mais se met en pause dès la première ligne de code dans la fonction `main()`.
 1. Affichez les informations de débogage.
     - Menu : `View` > `Open View...` > `Run`
-        - Vous observez les valeurs de variables déclarés dans le contexte de la fonction `main()`.
+        - Vous observez les valeurs des variables déclarées dans le contexte de la fonction `main()`.
 1. Continuez l'exécution du programme jusqu'à sa fin.
     - Menu : `Run` > `Continue`
 1. Le débogueur s'arrêtera net au moment où le code commet une erreur fatale de manipulation de mémoire et ça ressemblera à ceci :
@@ -87,7 +87,7 @@ Il ne vous est pas permis :
 - De modifier les signatures des fonctions déclarées dans `liste.c`.
 (Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
 - De modifier ni `liste.h` ni `main.c`.
-(Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les `liste.h` et `main.c` d'origine.)
+(Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les fichiers `liste.h` et `main.c` d'origine.)
 
 ## Instructions de travail
 
@@ -96,12 +96,12 @@ Il ne vous est pas permis :
     - `$ git commit -m "Description des modifications apportées"`
 1. Périodiquement, publiez votre dépôt local à votre dépôt sur GitHub.
     - `$ git push`
-1. Répétez ces étapes jusqu'à ce que tout les tests passent.
+1. Répétez ces étapes jusqu'à ce que tous les tests passent.
 
 Avec la commande `$ git log --all --decorate --oneline --graph`, l'historique de votre travail devrait au fil du temps ressembler à ceci  (lire du bas vers le haut) :
 
 ```
-* d98fd55 (HEAD -> master) Passe tout les tests de insert().
+* d98fd55 (HEAD -> master) Passe tous les tests de insert().
 * d6c6b98 Passe les test de insert() mais pas le cas special d'index 0.
 * 26354bc Passe les tests de at() et set().
 * 53b3e8d Passe les tests de length().
@@ -112,7 +112,7 @@ Avec la commande `$ git log --all --decorate --oneline --graph`, l'historique de
 ### «Puis-je utiliser l'en-tête `<X.h>` dans mon code ?»
 
 Oui.
-Vous avez droit à toutes les en-têtes C standard pour cet exercice et tout les exercices suivants.
+Vous avez droit à toutes les en-têtes C standard pour cet exercice et tous les exercices suivants.
 Explorez particulièrement `<ctype.h>` et `<string.h>`.
 
 ### «J'ai un problème !»
@@ -136,8 +136,8 @@ Démontrez ce que vous avez essayé et expliquez où vous bloquez.
 ### «Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»
 
 Oui.
-Pour ce faire, il faut effacer le dépôt et le recréer.
-Suivez ces instructions : https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/deleting-a-repository puis recommencez l'exercice depuis les [Instructions de départ](#instructions-de-d%C3%A9part).
+Pour ce faire, il faut effacer le dépôt et en créer un nouveau.
+Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/deleting-a-repository) puis recommencez l'exercice depuis l'étape de  [préparation](#pr%C3%A9paration).
 **Assurez-vous de me ré-inviter comme collaborateur à votre nouveau dépôt et ce même s'il porte exactement le même nom !**
 
 ## Évaluation
