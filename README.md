@@ -7,6 +7,8 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
 - [Préparation](#pr%C3%A9paration)
 - [Objectif](#objectif)
 - [Instructions de travail](#instructions-de-travail)
+    - [Ce qui est permis](#ce-qui-est-permis)
+    - [Ce qui ne l'est pas](#ce-qui-ne-lest-pas)
 - [Évaluation](#%C3%A9valuation)
 - [Questions-Réponses](#questions-r%C3%A9ponses)
     - [«Puis-je utiliser l'en-tête <X.h> dans mon code ?»](#%C2%ABpuis-je-utiliser-len-t%C3%AAte-xh-dans-mon-code-%C2%BB)
@@ -14,6 +16,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
         - [Comment demander de l'aide](#comment-demander-de-laide)
         - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
     - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
+    - [«Pourquoi pas de goto ou de boucles infinies ?»](#%C2%ABpourquoi-pas-de-goto-ou-de-boucles-infinies-%C2%BB)
 
 <!-- /TOC -->
 
@@ -103,17 +106,20 @@ Avec la commande `$ git log --all --decorate --oneline --graph`, l'historique de
 * 53b3e8d Passe les tests de length().
 ```
 
-Il vous est permis : 
+### Ce qui est permis
+
 - De modifier l'implémentation des fonctions définies dans le fichier `liste.c`.
 Vous pouvez, si vous le désirez, changer le code du tout au tout mais ce ne devrait pas être nécessaire.
 Le code existant fonctionne disont dans à peu près 50% des cas.
 Seul quelques lignes sont à modifier, ajouter ou éliminer pour atteindre 100%.
 
-Il ne vous est pas permis :
+### Ce qui ne l'est pas
+
 - De modifier les signatures des fonctions déclarées dans `liste.c`.
 (Leurs types de retour et les types de leurs paramètres ne peuvent être modifiés.)
 - De modifier ni `liste.h` ni `main.c`.
 (Rien ne vous en empêche au moment de travailler mais comprenez que le script d'évaluation utilisera les fichiers `liste.h` et `main.c` d'origine.)
+- D'utiliser `goto` et d'avoir des «boucles infinies» du style `while(1)`. Pourquoi ? La réponse est [ici](#pourquoi-pas-de-goto-ou-de-boucles-infinies-).
 
 ## Évaluation
 
@@ -157,3 +163,29 @@ Oui.
 Pour ce faire, il faut effacer le dépôt et en créer un nouveau.
 Suivez [ces instructions](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/deleting-a-repository) puis recommencez l'exercice depuis l'étape de  [préparation](#pr%C3%A9paration).
 **Assurez-vous de me ré-inviter comme collaborateur à votre nouveau dépôt et ce même s'il porte exactement le même nom !**
+
+### «Pourquoi pas de `goto` ou de boucles infinies ?»
+
+Pour vous forcer à visualiser les tenants et aboutissants de vos boucles *avant de toucher au clavier*. Si vous avez de la difficulté à reformuler votre code sans, je suis là pour vous aider.
+
+J'aurais bien envie de vous interdire aussi l'usage de `break` et de `continue` mais cette opinion, bien que défendable, est relativement exceptionnelle dans le monde du C alors je vais me retenir :smiley:. Sachez cependant qu'il est possible de réussir à la perfection tous les exercices que je vous donne sans une seule utilisation de `break` et `continue`. Je vous laisse avec cette astuce :
+
+```
+for(int i = 0; i != n; ++i)
+{
+    // ...
+
+    if(X)
+    {
+        break;
+    }
+}
+```
+
+Devient :
+```
+for(int i = 0; !X && i != n; ++i)
+{
+    // ...
+}
+```
