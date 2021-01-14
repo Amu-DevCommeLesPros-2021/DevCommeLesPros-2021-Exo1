@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 // Renvoie la longueur d'une liste chaînée.
-int length(node const *list)
+int length(
+    node const *list)
 {
     // On fait avancer le pointeur 'list' au noeud suivant autant de fois que 
     // nécéssaire pour arriver à la fin de la liste. On compte combien de fois 
@@ -17,7 +18,9 @@ int length(node const *list)
 
 // Renvoie un pointeur vers le 'index'ième noeud dans une liste.
 // Si 'index' est plus grand que la longueur de 'list', renvoie 'NULL'. 
-node* at(node *list, int index)
+node* at(
+    node *list,
+    int index)
 {
     // On fait avancer le pointeur 'list' autant de fois que 'index' nous 
     // l'indique et tant que l'on a pas atteint la fin de la liste.
@@ -30,7 +33,10 @@ node* at(node *list, int index)
 
 // Affecte au 'index'ième noeud la valeur donnée.
 // Si 'index' est plus grand que la longueur de 'list', 'list' reste inchangée.
-void set(node *list, int index, float const data)
+void set(
+    node *list,
+    int index,
+    float const data)
 {
     at(list, index)->data = data;
 }
@@ -38,7 +44,10 @@ void set(node *list, int index, float const data)
 // Insère juste après le 'index'ième noeud un nouveau noeud avec la valeur donnée.
 // Renvoie le pointeur 'list'.
 // Si 'index' est plus grand que la longueur de 'list', 'list' reste inchangée.
-node* insert(node *list, int index, float const data)
+node* insert(
+    node *list,
+    int index,
+    float const data)
 {
     // La liste est peut-être un liste vide, ce sera alors le tout premier noeud.
     if(list == NULL)
@@ -71,7 +80,9 @@ node* insert(node *list, int index, float const data)
 // Efface le 'index'ième noeud.
 // Renvoie un pointeur vers le début de la liste.
 // Si 'index' est plus grand que la longueur de 'list', 'list' reste inchangée.
-node* erase(node* list, int index)
+node* erase(
+    node* list,
+    int index)
 {
     // Si c'est une liste vide, il n'y a rien à faire.
     if(list)
@@ -105,7 +116,9 @@ node* erase(node* list, int index)
 // Renvoie un pointeur vers la deuxième liste crée.
 // Si 'index' est plus grand que la longueur de 'list', renvoie 'NULL' et 'list' 
 // reste inchangée.
-node* split(node** list, int const index)
+node* split(
+    node** list,
+    int const index)
 {
     node *split_point = at(*list, index);
     node *second_list = split_point->next;
@@ -115,7 +128,8 @@ node* split(node** list, int const index)
 }
 
 // Libère la mémoire allouée pour tout les noeuds d'une liste.
-void clear(node *list)
+void clear(
+    node *list)
 {
     // Pour chaque noeud de la liste :
     //  1. on mémorise l'adresse du noeud suivant.
