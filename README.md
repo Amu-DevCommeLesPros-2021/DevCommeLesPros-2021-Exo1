@@ -201,7 +201,7 @@ Sous Linux, les fins de ligne ne sont encodées que par le caractère `\LF`.
 Quand vous installez et utilisez `git` pour Windows ([GitBash](https://git-scm.com/download/win) par exemple), ccelui-ci est configuré par défaut pour convertir les fin de lignes en version «Windows».
 Comme vous allez ensuite visionner et modifier ces fichiers sous WSL qui est Linux, les fichiers apparaîtront comme modifiés.
 
-Outre utiliser `git` exclusivement sous WSL, il vous est aussi possible de changer cette configuration avec `$ git config core.autoclrf input`.
+Outre utiliser `git` exclusivement sous WSL, il vous est aussi possible de changer cette configuration avec `$ git config core.autocrlf input`.
 Voici un avant/après de ce ça donnera :
 
 ![git-crlf-input-good](https://user-images.githubusercontent.com/1580647/108228834-8436e300-713f-11eb-9764-c8d553df6098.PNG)
