@@ -17,6 +17,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
         - [Où demander de l'aide](#o%C3%B9-demander-de-laide)
     - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
     - [«Pourquoi pas de goto ou de boucles infinies ?»](#%C2%ABpourquoi-pas-de-goto-ou-de-boucles-infinies-%C2%BB)
+    - [«Je n'ai rien fait encore et git me dit que tous les fichiers ont été modifiés.»](#%C2%ABje-nai-rien-fait-encore-et-git-me-dit-que-tous-les-fichiers-ont-%C3%A9t%C3%A9-modifi%C3%A9s%C2%BB)
 
 <!-- /TOC -->
 
@@ -189,3 +190,20 @@ for(int i = 0; !X && i != n; ++i)
     // ...
 }
 ```
+
+### «Je n'ai rien fait encore et `git` me dit que tous les fichiers ont été modifiés.»
+
+Réponse rapide : si vous travaillez sous Windows avec WSL, il est préférable d'utiliser `git` à l'invite de commande de WSL et non pas dans le contexte de Windows.
+Du fait, installez `git` sous WSL avec la commande `$ sudo apt-get install git` et n'utilisez `git` que dans le contexte de WSL (ou de l'onglet `Terminal` de Visual Studio Code, étant soi-même un terminal de WSL).
+
+Réponse complète : pour des raisons historiques, sous Windows les «[fins de ligne](https://fr.wikipedia.org/wiki/Fin_de_ligne)» sont encodées par les deux caractères `\CR\LF` (retour de chariot suive de saut de ligne).
+Sous Linux, les fins de ligne ne sont encodées que par le caractère `\LF`.
+Quand vous installez et utilisez `git` pour Windows ([GitBash](https://git-scm.com/download/win) par exemple), ccelui-ci est configuré par défaut pour convertir les fin de lignes en version «Windows».
+Comme vous allez ensuite visionner et modifier ces fichiers sous WSL qui est Linux, les fichiers apparaîtront comme modifiés.
+
+Outre utiliser `git` exclusivement sous WSL, il vous est aussi possible de changer cette configuration avec `$ git config core.autoclrf input`.
+Voici un avant/après de ce ça donnera :
+
+![git-crlf-input-good](https://user-images.githubusercontent.com/1580647/108228834-8436e300-713f-11eb-9764-c8d553df6098.PNG)
+
+Cette modification à la configuration de `git` n'est que locale, pour reconfigurer `git` une fois pour toute de façon globale faite `$ git config --global core.autocrlf input` à l'invite de commande.
