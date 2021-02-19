@@ -207,11 +207,11 @@ Voici un avant/après de ce ça donnera :
 
 ![git-crlf-input-good](https://user-images.githubusercontent.com/1580647/108228834-8436e300-713f-11eb-9764-c8d553df6098.PNG)
 
-Cette modification à la configuration de `git` n'est que locale, pour reconfigurer `git` une fois pour toute de façon globale faite `$ git config --global core.autocrlf input` à l'invite de commande.
+Cette modification à la configuration de `git` n'est que locale au dépôt où vous vous trouvez, pour reconfigurer `git` une fois pour toute de façon globale faite `$ git config --global core.autocrlf input` à l'invite de commande.
 
 ### «macOS me demande constamment de permettre à a.out d'accéder au dossier Documents»
 
-Si vous travaillez sous macOS et que vous avez cloné le dépôt dans le dossier `Documents`, il se peux que vous voyiez ceci à chaque fois que vous lancez le débogueur :
+Si vous travaillez sous macOS et que vous avez cloné le dépôt dans le dossier `Documents`, il se peut que vous voyiez ceci à chaque fois que vous lancez le débogueur :
 
 <img width="320" alt="macOS access Documents" src="https://user-images.githubusercontent.com/1580647/108481040-f6224000-7297-11eb-94bb-5878e28f978e.png">
 
