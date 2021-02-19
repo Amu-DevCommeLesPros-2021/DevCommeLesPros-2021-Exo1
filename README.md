@@ -18,6 +18,7 @@ Modèle de départ pour exercices d'introduction au débogueur et à la gestion 
     - [«Je me suis gouré royalement ! Est-ce que je peux recommencer de zéro ?»](#%C2%ABje-me-suis-gour%C3%A9-royalement--est-ce-que-je-peux-recommencer-de-z%C3%A9ro-%C2%BB)
     - [«Pourquoi pas de goto ou de boucles infinies ?»](#%C2%ABpourquoi-pas-de-goto-ou-de-boucles-infinies-%C2%BB)
     - [«Je n'ai rien fait encore et git me dit que tous les fichiers ont été modifiés.»](#%C2%ABje-nai-rien-fait-encore-et-git-me-dit-que-tous-les-fichiers-ont-%C3%A9t%C3%A9-modifi%C3%A9s%C2%BB)
+    - [«macOS me demande constamment de permettre à a.out d'accéder au dossier Documents»](#%C2%ABmacos-me-demande-constamment-de-permettre-%C3%A0-aout-dacc%C3%A9der-au-dossier-documents%C2%BB)
 
 <!-- /TOC -->
 
@@ -207,3 +208,31 @@ Voici un avant/après de ce ça donnera :
 ![git-crlf-input-good](https://user-images.githubusercontent.com/1580647/108228834-8436e300-713f-11eb-9764-c8d553df6098.PNG)
 
 Cette modification à la configuration de `git` n'est que locale, pour reconfigurer `git` une fois pour toute de façon globale faite `$ git config --global core.autocrlf input` à l'invite de commande.
+
+### «macOS me demande constamment de permettre à a.out d'accéder au dossier Documents»
+
+Si vous travaillez sous macOS et que vous avez cloné le dépôt dans le dossier `Documents`, il se peux que vous voyiez ceci à chaque fois que vous lancez le débogueur :
+
+<img width="320" alt="macOS access Documents" src="https://user-images.githubusercontent.com/1580647/108481040-f6224000-7297-11eb-94bb-5878e28f978e.png">
+
+Sous macOS, le dossier `Documents` comme certains autres est sous bonne garde.
+De vouloir déboguer un programme qui se trouve dans ce dossier, déclenche certains protocoles de sécurité agressifs de macOS.
+C'est normal.
+(Mon code, n'est pas maliciceux, promis ! D'ailleurs, vous l'avez sous vos yeux. Confirmez !)
+
+Deux solutions possibles :
+
+1. Faites les exercices dans un dossier autre que `Documents`.
+Ce dossier étant spécial et sur-protégé par macOS, si le programme ne s'y trouve pas, on contourne le problème.
+Personnellement, c'est ce que je fais.
+1. Modifier le fichier `.vscode/launch.json` pour y ajouter une ligne comme ci-dessous.
+Avec cette option, le programme sera lancé dans le contexte de l'application `terminal`.
+En acceptant de de donner à l'application `terminal` accès à `Documents`, nous résolvons le problème une fois pour toute car `terminal` est une application qui ne change pas (contrairement à `a.out` qui change à chaque fois que nous le re-compilons).
+Seul inconvénient, le résultat du programme sera affiché dans une nouvelle fenêtre séparément.
+
+```
+"osx": {
+    "MIMode": "lldb",
+    "externalConsole": true     // Ligne à ajouter.
+},
+```
