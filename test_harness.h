@@ -76,7 +76,7 @@ void __attribute__((constructor)) install_signal_handler()
     memset(&sa, 0, sizeof(struct sigaction));
     sigemptyset(&sa.sa_mask);
     sa.sa_handler = signal_handler;
-    for(int signals[4] = {SIGBUS, SIGFPE, SIGILL, SIGSEGV}, i = 0; i != sizeof(signals); ++i)
+    for(int signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGINT, SIGSEGV}, i = 0; i != sizeof(signals) / sizeof(int); ++i)
     {
         sigaction(signals[i], &sa, NULL);
     }
