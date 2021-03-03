@@ -1,5 +1,5 @@
 import argparse
-import datetime
+import dateutil.parser
 import itertools
 import logging
 import os
@@ -7,8 +7,8 @@ import subprocess
 import sys
 
 ARGPARSER = argparse.ArgumentParser()
-ARGPARSER.add_argument('-t', '--timestamp', dest='timestamp', action='store', metavar='TIMESTAMP(DD-MM-YYY HH24:MM)',
-                       help='Date and time at which to clone the repositories.')
+ARGPARSER.add_argument('-d', '--deadline', dest='deadline', action='store', metavar='YYYY-MM-DDTHH:MM:SS+HH:MM',
+                       help='Date and time at which the submissions are expected.')
 ARGPARSER.add_argument('-l', '--show-log', dest='show_log', action='store_true',
                        help='Print git log of repositories.')
 ARGPARSER.add_argument('-r', '--repo', dest='repo', action='store',
@@ -22,16 +22,16 @@ ARGPARSER.add_argument('-v', '--valgrind', dest='valgrind', action='store_true',
 ARGS = ARGPARSER.parse_args()
 
 # Verify timestamp format, if present.
-if ARGS.timestamp:
+if ARGS.deadline:
     try:
-        datetime.datetime.strptime(ARGS.timestamp, "%d/%m/%Y %H:%M")
+        dateutil.parser.parse(ARGS.deadline)
     except ValueError:
-        print('Bad timestamp', sys.exc_info())
+        print('Bad deadline timestamp', sys.exc_info())
         sys.exit(100)
 
 subprocess.run('gcc -g -c ../main.c -o main.o', shell=True)
 
-def evaluate_repo(name, timestamp=None):
+def evaluate_repo(name, deadline=None):
     """Clone, compile and run tests on the given repo."""
     try:
         # Craft URL to clone given a depot name.
@@ -42,17 +42,39 @@ def evaluate_repo(name, timestamp=None):
 
         # Clone the repo.
         if (not os.path.exists(local_depot_path)):
-            subprocess.run('git clone ' + remote_depot_url + ' ' + local_depot_path, shell=True, check=True, stderr=subprocess.PIPE)
+            subprocess.run('git clone ' + remote_depot_url + ' ' + local_depot_path,
+                           check=True, shell=True, text=True, stderr=subprocess.PIPE)
 
         # If timestamp is specified, checkout at that point in time.
-        timestamp = ARGS.timestamp or None
-        if timestamp is not None:
-            rev_list_cmd = subprocess.run('git rev-list -n 1 --before="' + timestamp + '" master', 
-                                          cwd=local_depot_path, shell=True, capture_output=True, text=True, check=True)
-            if not rev_list_cmd.stdout:
-                raise RuntimeError('repo non-existant at timestamp: ' + timestamp)
+        deadline = deadline or ARGS.deadline
+        if deadline is not None:
 
-            subprocess.run(['git checkout ' + rev_list_cmd.stdout], cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE)
+            # rev_list_cmd = subprocess.run('git rev-list -n 1 --before="' + timestamp + '" master', 
+            #                               cwd=local_depot_path, shell=True, capture_output=True, text=True, check=True)
+            # if not rev_list_cmd.stdout:
+            #     raise RuntimeError('repo non-existant at timestamp: ' + timestamp)
+
+            # subprocess.run(['git checkout ' + rev_list_cmd.stdout], cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE)
+
+            # Get time of last time commit and, if later than specified timestamp, mention it.
+            last_commit_timestamp_cmd = subprocess.run('git log -1 --format=%cd --date=iso',
+                                                       cwd=local_depot_path, capture_output=True, shell=True, text=True)
+
+            last_commit_timestamp = dateutil.parser.parse(last_commit_timestamp_cmd.stdout)
+            deadline_timestamp = dateutil.parser.parse(deadline)
+            if(last_commit_timestamp > deadline_timestamp):
+                try:
+                    import termcolor
+                    termcolor.cprint("Late submission by {}".format(last_commit_timestamp - deadline_timestamp), 'red', attrs=['blink'])
+                    termcolor.cprint("Last commit: {}".format(last_commit_timestamp), 'red')
+                except ImportError:
+                    print("*** LATE SUBMISSION BY ", last_commit_timestamp - deadline_timestamp, " ***")
+                    print("*** LAST COMMIT: ", last_commit_timestamp, " ***")
+
+        # Show git log if requested.
+        if ARGS.show_log:
+            subprocess.run('git --no-pager log --all --decorate --graph --pretty=format:"%aD (%an) %s"', cwd=local_depot_path, shell=True)
+            print('\n')
 
         # Compile liste.c and link with main.o.
         subprocess.run('gcc --debug -I ../.. -c liste.c -o liste.o', cwd=local_depot_path, shell=True, check=True, stderr=subprocess.PIPE, text=True)
@@ -60,6 +82,8 @@ def evaluate_repo(name, timestamp=None):
 
         # Launch tested program.
         run_program_cmd = subprocess.run('./a.out', cwd=local_depot_path, shell=True, capture_output=True, text=True, timeout=3)
+        if run_program_cmd.returncode != 0:
+            print("Program returned error code: [" + str(run_program_cmd.returncode) + "]")
 
         # Show results.
         if ARGS.show_output:
@@ -69,20 +93,21 @@ def evaluate_repo(name, timestamp=None):
 
         # Show valgrind analysis if requested.
         if ARGS.valgrind:
-            subprocess.run('valgrind --log-fd=2 --leak-check=full --show-leak-kinds=all --track-origins=yes ./a.out 1>/dev/null', cwd=local_depot_path, shell=True)
-
-        # Show git log if requested.
-        if ARGS.show_log:
-            subprocess.run('git log --all --decorate --graph --pretty=format:"%aD (%an) %s"', cwd=local_depot_path, shell=True)
+            subprocess.run('valgrind --log-fd=2 --leak-check=full --show-leak-kinds=all --track-origins=yes ./a.out 1>/dev/null',
+                           cwd=local_depot_path, shell=True)
 
     except subprocess.CalledProcessError as e:
-        print('Command "' + e.cmd + '" failed with error: [' + str(e.returncode) + '] ' + e.stderr)
+        print("Command \"" + e.cmd + "\" failed with error: [" + str(e.returncode) + "]" + e.stderr)
     except subprocess.TimeoutExpired as e:
-        print('Command "' + e.cmd + '" timed out with error: ' + e.stderr)
+        print("Command \"" + e.cmd + "\" timed out.")
     except RuntimeError as e:
         print("Failure: " + "\n".join(e.args))
 
 if __name__ == "__main__":
+    if sys.version_info < (3, 7, 5) and sys.platform == "linux":
+        print("This script requires Python 3.7.5 or above due to a bug in subprocess' timeout handling.") # https://bugs.python.org/issue37424
+        sys.exit(-2)
+
     if ARGS.repo is not None:
         evaluate_repo(ARGS.repo, ARGS.timestamp)
     else:
@@ -96,7 +121,7 @@ if __name__ == "__main__":
                     timestamp = None
                     if len(cells) > 1:
                         try:
-                            datetime.datetime.strptime(cells[1], "%d/%m/%Y %H:%M")
+                            dateutil.parser.parse(cells[1])
                             timestamp = cells[1]
                         except:
                             raise RuntimeError('-1 bad timestamp format')
